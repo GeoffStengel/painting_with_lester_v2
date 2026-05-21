@@ -200,7 +200,7 @@ const galleryArtwork = [
 /* /=== GALLERY ONLY ARTWORK END ===/ */
 
 /* /=== FORM SERVICES START ===/ */
-const FORMSPREE_ENDPOINT = "https://formspree.io/f/xbdbgaop";
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/mkoejarb";
 /* /=== FORM SERVICES END ===/ */
 
 
