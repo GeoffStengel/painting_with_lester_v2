@@ -54,6 +54,10 @@ function switchSection(sectionName) {
     initTools();
   }
 
+  if (activeSection === "gallery") {
+  initGallerySearch();
+  }
+  
   updateCartUI();
   updateHomeCounts();
 }

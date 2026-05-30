@@ -88,6 +88,14 @@ gallery: () => {
         A rotating look at Lester's originals, prints, and studio work.
       </p>
 
+      <input
+        id="gallerySearch"
+        class="gallery-search"
+        type="search"
+        placeholder="Search artwork by name, medium, size, or year..."
+      >
+
+
       <div class="gallery-grid">
         ${allGalleryItems.map((artwork) => `
           <article
@@ -274,26 +282,34 @@ gallery: () => {
       <p class="eyebrow">About</p>
       <h2 class="section-heading">Meet Lester</h2>
       <p class="section-copy">
-        Lester creates expressive paintings filled with movement, color, and story.
+        Lester Maurer creates expressive paintings filled with movement, color, and story.
         This shop brings originals, prints, and creative tools together in one playful collector-friendly space.
       </p>
 
       <div class="about-card">
-        <p>The artist grew up surrounded by the masterpieces within the Brandywine River Museum. With his mother working there, all major family events and Christmas parties were celebrated there. The artist’s childhood familiarity with the world’s greatest collection of the Wyeth family (N.C. Wyeth, Andrew Wyeth, and Jamie Wyeth) paintings nourish his work. Since early youth, the artist excelled in drawing.
+        <p>
+          The artist grew up surrounded by the masterpieces within the <a href="https://www.brandywine.org/" target="_blank" rel="noreferrer">Brandywine River Museum</a>. With his mother working there, all major family events and Christmas parties were celebrated there. The artist’s childhood familiarity with the world’s greatest collection of the Wyeth family (N.C. Wyeth, Andrew Wyeth, and Jamie Wyeth) paintings nourish his work. Since early youth, the artist excelled in drawing.
+        </p>
 
+        <p>
+          The artist studied art at the <a href="https://en.wikipedia.org/wiki/Pima_Community_College" target="_blank" rel="noreferrer">Pima Community College</a> in Tucson, AZ for three years before traveling throughout Europe where he was influenced by the architecture, sculpture, and paintings of Italy, Germany, Netherlands, Spain, and England. Still very young (23), the artist moved to <a href="https://www.eugene-or.gov/" target="_blank" rel="noreferrer">Eugene, Oregon</a> and found his true artistic muse. Energized by the progressive, yet offbeat community of Eugene, he painted dozens of plein air oil paintings of his community and the surrounding area. He began using soft pastels to paint live performances like poetry slams and concerts and then found himself sought after to ‘perform’ as an artist at a large array of venues, from festivals to social events, from Seattle to Tucson.
+        </p>
+        
+        <p>
+          After the COVID pandemic Lester created a series of portraits he called the Faces of Eugene series with acrylic paint. “Its been too long since we have seen each other’s faces.” In this series the artist captures from life portraits of his community members in Eugene. Often taking 4-6 hours to complete portraits with good company and conversation. The Artist capturing dozens of portraits to bring life back to normal with in his community.
+        </p>
 
-The artist studied art at the Pima Community College in Tucson, AZ for three years before traveling throughout Europe where he was influenced by the architecture, sculpture, and paintings of Italy, Germany, Netherlands, Spain, and England. Still very young (23), the artist moved to Eugene, Oregon and found his true artistic muse. Energized by the progressive, yet offbeat community of Eugene, he painted dozens of plein air oil paintings of his community and the surrounding area. He began using soft pastels to paint live performances like poetry slams and concerts and then found himself sought after to ‘perform’ as an artist at a large array of venues, from festivals to social events, from Seattle to Tucson.
+        <p>
+          Lester continues to experiment with the <a href="https://en.wikipedia.org/wiki/Acrylic_paint" target="_blank" rel="noreferrer">acrylic medium</a> playing with using a broom as a brush the Artist worked on a series of paintings on recycled pallet liner board.
+        </p>
 
+        <p>
+          In the beginning of 2026 the artist created a YouTube art show. following the wake of two ICE executions of American citizens. The show “Painting With Lester”. Created with the intent to show the world that people who disagree with the ICE crackdown are regular folks. A message contrary to what media has suggested. “It’s a shame that good people with good intent be slandered as a enemy figure.”
+        </p>
 
-After the COVID pandemic Lester created a series of portraits he called the Faces of Eugene series with acrylic paint. “Its been too long since we have seen each other’s faces.” In this series the artist captures from life portraits of his community members in Eugene. Often taking 4-6 hours to complete portraits with good company and conversation. The Artist capturing dozens of portraits to bring life back to normal with in his community.
-
-Lester continues to experiment with the acrylic medium playing with using a broom as a brush the Artist worked on a series of paintings on recycled pallet liner board.
-
-
-In the beginning of 2026 the artist created a YouTube art show. following the wake of two ICE executions of American citizens. The show “Painting With Lester”. Created with the intent to show the world that people who disagree with the ICE crackdown are regular folks. A message contrary to what media has suggested. “It’s a shame that good people with good intent be slandered as a enemy figure.”
-
-
-This artist believes that capturing a moment within that moment (single live session) makes his work stand out as pure in the expression of the human experience.</p>
+        <p>
+          This artist believes that capturing a moment within that moment (single live session) makes his work stand out as pure in the expression of the human experience.
+        </p>
       </div>
     </div>
   `,
@@ -331,6 +347,52 @@ This artist believes that capturing a moment within that moment (single live ses
   /* /=== SOCIALS SECTION TEMPLATE END ===/ */
 };
 /* /=== PAGE SECTION TEMPLATES END ===/ */
+
+
+/* /=== GALLERY SEARCH START ===/ */
+/* /=== GALLERY SEARCH START ===/ */
+function initGallerySearch() {
+  const searchInput = document.querySelector("#gallerySearch");
+  const galleryCards = document.querySelectorAll(".gallery-card");
+
+  if (!searchInput || !galleryCards.length) return;
+
+  searchInput.addEventListener("input", () => {
+    const searchTerm = searchInput.value.toLowerCase().trim();
+    const visibleCards = [];
+
+    galleryCards.forEach((card) => {
+      const title = card.querySelector("h3")?.textContent.toLowerCase() || "";
+      const medium = card.querySelector("span")?.textContent.toLowerCase() || "";
+      const details = card.querySelector("small")?.textContent.toLowerCase() || "";
+
+      const matchesSearch =
+        title.includes(searchTerm) ||
+        medium.includes(searchTerm) ||
+        details.includes(searchTerm);
+
+      card.style.display = matchesSearch ? "" : "none";
+
+      if (matchesSearch) {
+        let rank = 3;
+
+        if (title.startsWith(searchTerm)) rank = 0;
+        else if (title.includes(searchTerm)) rank = 1;
+        else if (medium.includes(searchTerm)) rank = 2;
+
+        visibleCards.push({ card, rank, title });
+      }
+    });
+
+    visibleCards
+      .sort((a, b) => a.rank - b.rank || a.title.localeCompare(b.title))
+      .forEach(({ card }) => {
+        card.parentElement.appendChild(card);
+      });
+  });
+}
+/* /=== GALLERY SEARCH END ===/ */
+
 
 /* /=== GALLERY LIGHTBOX START ===/ */
 function openGalleryLightbox(image, title, medium, size, year) {

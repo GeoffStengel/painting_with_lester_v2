@@ -14,7 +14,10 @@ const products = [
     fulfillment: "Printed to order and shipped rolled or flat depending on size.",
     image: "images/save_the_tree_nocturne_36x48_acrylic_on_canvas.jpg",
     description: "Inspired by a neighborhood tree saved from being cut down.",
-    tags: ["Print", "Open Edition"],
+    year: "2024",
+    datePainted: "2024-10-01",
+    medium: "Oil on Board",
+    tags: ["Print", "Open Edition", "landscape", "oil", "trees"],
     printOptions: [
     { label: "8 × 6 in", price: 40 },
     { label: "18 × 13.5 in", price: 100 },
